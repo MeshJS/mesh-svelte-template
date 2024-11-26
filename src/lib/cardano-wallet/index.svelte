@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { MeshSdkState } from '../sdk.svelte.js';
+    import { onMount } from 'svelte';
+    import {BrowserWallet, type Wallet } from "@meshsdk/core"
 	import { BrowserWalletState } from './browser-wallet-state.svelte.js';
 
 	const {
@@ -17,6 +18,14 @@
 		extensions?: number[];
 	} = $props();
 
+	let availableWallets: Wallet[] = $state([])
+
+	onMount(() => {
+	 BrowserWallet.getAvailableWallets().then(aw => {
+		availableWallets = aw
+		});
+	})
+
 	let hideMenuList: boolean = $state(true);
 </script>
 
@@ -32,9 +41,7 @@
 		class={`mesh-mr-menu-list mesh-flex mesh-w-60 mesh-items-center mesh-justify-center mesh-rounded-t-md mesh-border mesh-px-4 mesh-py-2 mesh-text-lg mesh-font-normal mesh-shadow-sm ${isDark ? `mesh-bg-neutral-950 mesh-text-neutral-50` : `mesh-bg-neutral-50 mesh-text-neutral-950`}`}
 		onclick={() => (hideMenuList = !hideMenuList)}
 	>
-		{#if MeshSdkState.meshSdk === undefined}
-			Loading...
-		{:else if BrowserWalletState.connecting}
+		{#if BrowserWalletState.connecting}
 			Connecting...
 		{:else if BrowserWalletState.browserWallet === undefined}
 			{label}
@@ -63,15 +70,15 @@
 	<div
 		class={`mesh-mr-menu-list mesh-absolute mesh-z-50 mesh-w-60 mesh-rounded-b-md mesh-border mesh-text-center mesh-shadow-sm mesh-backdrop-blur ${hideMenuList && 'mesh-hidden'} ${isDark ? `mesh-bg-neutral-950 mesh-text-neutral-50` : `mesh-bg-neutral-50 mesh-text-neutral-950`}`}
 	>
-		{#if BrowserWalletState.wallet === undefined && MeshSdkState.walletList.length > 0}
-			{#each MeshSdkState.walletList as enabledWallet}
+		{#if BrowserWalletState.wallet === undefined && availableWallets.length > 0}
+			{#each availableWallets as enabledWallet}
 				{@render menuItem(
 					enabledWallet.icon,
 					() => BrowserWalletState.connectWallet(enabledWallet),
 					enabledWallet.name
 				)}
 			{/each}
-		{:else if BrowserWalletState.wallet === undefined && MeshSdkState.walletList.length === 0}
+		{:else if BrowserWalletState.wallet === undefined && availableWallets.length === 0}
 			<span>No Wallet Found</span>
 		{:else if BrowserWalletState.browserWallet}
 			{@render menuItem(undefined, () => BrowserWalletState.disconnectWallet(), 'Disconnect')}
