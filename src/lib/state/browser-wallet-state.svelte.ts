@@ -22,21 +22,23 @@ export const BrowserWalletState = {
   get browserWallet() {
     return browserWallet;
   },
-  async connectWallet(w: Wallet) {
-    connecting = true;
-    browserWallet = await BrowserWallet.enable(w.id);
-    wallet = w;
-    walletName = w.name
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(" ");
-    lovelaceBalance = await browserWallet.getLovelace();
-    connecting = false;
-  },
-  disconnectWallet() {
-    wallet = undefined;
-    browserWallet = undefined;
-    walletName = undefined;
-    lovelaceBalance = undefined;
-  },
 };
+
+export async function connectWallet(w: Wallet) {
+  connecting = true;
+  browserWallet = await BrowserWallet.enable(w.id);
+  wallet = w;
+  walletName = w.name
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+  lovelaceBalance = await browserWallet.getLovelace();
+  connecting = false;
+}
+
+export function disconnectWallet() {
+  wallet = undefined;
+  browserWallet = undefined;
+  walletName = undefined;
+  lovelaceBalance = undefined;
+}

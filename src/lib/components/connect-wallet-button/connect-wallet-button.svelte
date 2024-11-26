@@ -1,22 +1,15 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import {BrowserWallet, type Wallet } from "@meshsdk/core"
-	import { BrowserWalletState } from './browser-wallet-state.svelte.js';
+	import { BrowserWalletState, connectWallet, disconnectWallet } from '$lib/state/browser-wallet-state.svelte.js';
+	import { type ConnectWalletButtonProps} from '.';
 
 	const {
 		label = 'Connect Wallet',
 		isDark = false,
 		metamask = undefined,
 		extensions = []
-	}: {
-		label?: string;
-		onConnected?: Function;
-		isDark?: boolean;
-		metamask?: {
-			network: string;
-		};
-		extensions?: number[];
-	} = $props();
+	}: ConnectWalletButtonProps = $props();
 
 	let availableWallets: Wallet[] = $state([])
 
@@ -74,14 +67,14 @@
 			{#each availableWallets as enabledWallet}
 				{@render menuItem(
 					enabledWallet.icon,
-					() => BrowserWalletState.connectWallet(enabledWallet),
+					() => connectWallet(enabledWallet),
 					enabledWallet.name
 				)}
 			{/each}
 		{:else if BrowserWalletState.wallet === undefined && availableWallets.length === 0}
 			<span>No Wallet Found</span>
 		{:else if BrowserWalletState.browserWallet}
-			{@render menuItem(undefined, () => BrowserWalletState.disconnectWallet(), 'Disconnect')}
+			{@render menuItem(undefined, () => disconnectWallet(), 'Disconnect')}
 		{/if}
 	</div>
 </div>
