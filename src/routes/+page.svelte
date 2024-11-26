@@ -8,14 +8,15 @@
 </script>
 
 <div class="bg-gray-900 w-full text-white text-center">
-    <ConnectWalletButton></ConnectWalletButton>
     <main class={`flex min-h-screen flex-col items-center justify-center p-24`}>
         <h1 class="text-6xl font-thin mb-20">
             <a href="https://meshjs.dev/" class="text-sky-600"> Mesh </a>{" "}
             SvelteKit
         </h1>
 
-        <div class="mb-20">ConnectWallet here</div>
+        <div class="mb-20">
+            <ConnectWalletButton />
+        </div>
 
         <div
             class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 content-center justify-around"
