@@ -80,7 +80,7 @@
 </div>
 {#snippet menuItem(icon: string | undefined, onclick: () => void, name: string)}
 	<button
-		class="mesh-flex mesh-h-16 mesh-cursor-pointer mesh-items-center mesh-px-4 mesh-py-2 mesh-opacity-80 hover:mesh-opacity-100"
+		class="mesh-flex mesh-h-16 mesh-cursor-pointer mesh-items-center mesh-px-4 w-full mesh-py-2 mesh-opacity-80 hover:mesh-opacity-100"
 		{onclick}
 	>
 		{#if icon}
@@ -88,6 +88,8 @@
 		{/if}
 		<span
 			class="mesh-mr-menu-item mesh-text-xl mesh-font-normal mesh-text-gray-700 hover:mesh-text-black"
+			class:mesh-text-white={isDark}
+			class:hover:mesh-text-gray-700={isDark}
 		>
 			{name
 				.split(' ')

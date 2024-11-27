@@ -1,11 +1,16 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
-export default {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
-
+const sharedConfig: Omit<Config, "content"> = {
   theme: {
-    extend: {}
+    extend: {},
   },
+  plugins: [],
+};
 
-  plugins: []
+const config: Pick<Config, "prefix" | "presets" | "content"> = {
+  content: ["./src/**/*.{html,js,svelte,ts}"],
+  prefix: "mesh-",
+  presets: [sharedConfig],
 } satisfies Config;
+
+export default config;
