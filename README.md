@@ -24,7 +24,7 @@ Whether you are new to web development or a seasoned blockchain full-stack devel
 
 Open-source smart contracts, complete with documentation, live demos, and end-to-end source code.
 
-### [React components and hooks](https://meshjs.dev/react)
+### [Svelte components](https://meshjs.dev/svelte)
 
 Frontend components for wallet connections, and useful React hooks to getting wallet states - Mesh provides everything you need to bring your Web3 user interface to life.
 
